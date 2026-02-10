@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <div class="main-header">
+     LIBRARY CARD SYSTEM
+    </div>
+    <title>Books</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="books-page">
+
+<div class="books-container">
+
+<h2>Available Books</h2>
+{% if request.args.get('requested') %}
+<script>
+alert("Book request initiated successfully!");
+</script>
+{% endif %}
+
+
+<table class="books-table">
+<tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Action</th>
+</tr>
+
+{% for book in books %}
+<tr>
+    <td>{{ book.id }}</td>
+    <td>{{ book.title }}</td>
+    <td>{{ book.author }}</td>
+    <td>
+        <a href="/request/{{ book.id }}" class="request-btn">Request</a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="/student" class="back-link">← Back to Dashboard</a>
+
+</div>
+
+</body>
+
+</html>

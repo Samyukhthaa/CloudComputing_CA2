@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <div class="main-header">
+     LIBRARY CARD SYSTEM
+    </div>
+    <title>Library Card Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="admin-cards-page">
+
+<div class="admin-cards-container">
+
+<h2>Library Card Requests</h2>
+
+<table class="admin-table">
+
+<tr>
+    <th>ID</th>
+    <th>Student Name</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+
+{% for c in cards %}
+<tr>
+    <td>{{ c.id }}</td>
+    <td>{{ c.name }}</td>
+
+    <td>
+        {% if c.status == 'Approved' %}
+            <span class="status-approved">Approved</span>
+        {% else %}
+            <span class="status-pending">Pending</span>
+        {% endif %}
+    </td>
+
+    <td>
+        {% if c.status == 'Pending' %}
+            <a href="/admin/approve_card/{{ c.id }}" class="approve-btn">Approve</a>
+        {% else %}
+            —
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+<a href="/admin" class="admin-back">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

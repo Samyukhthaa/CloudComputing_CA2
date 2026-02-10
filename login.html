@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <div class="main-header">
+     LIBRARY CARD SYSTEM
+    </div>
+
+    <title>Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="auth-body">
+
+<div class="auth-card">
+
+<h2>Login</h2>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="POST">
+<input type="email" name="email" placeholder="Email" required>
+<input type="password" name="password" placeholder="Password" required>
+<button>Login</button>
+</form>
+
+<a href="/register">
+<button class="alt-btn">Register</button>
+</a>
+
+</div>
+
+</body>
+
+</html>

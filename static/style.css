@@ -1,0 +1,696 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== LOGIN + REGISTER ===== */
+
+.auth-body {
+    height: 100vh;
+    background: url("images/login_bg.jpg") no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    width: 350px;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.auth-card h2 {
+    margin-bottom: 15px;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.auth-card button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #222f4f, #222f4f);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    margin-top: 12px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.auth-card button:hover {
+    opacity: 0.9;
+}
+
+.alt-btn {
+    background: rgba(255,255,255,0.7);
+    color: #222f4f;
+    border: 1px solid #222f4f;
+}
+
+.alt-btn:hover {
+    background: rgba(255,255,255,0.9);
+}
+
+.alt-btn {
+    background: white;
+    color: black;
+    border: 1px solid #222f4f;
+}
+
+.alt-btn:hover {
+    background: #222f4f;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+/* ===== DASHBOARDS ===== */
+
+.dashboard {
+    min-height: 100vh;
+    background: #f4f6f8;
+    padding: 40px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.header img {
+    width: 60px;
+}
+
+.card-box {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.card-box a {
+    display: block;
+    text-decoration: none;
+    margin: 10px 0;
+    color: #1f6fff;
+}
+
+/* ===== TABLES ===== */
+
+table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+th {
+    background: #1f6fff;
+    color: white;
+}
+
+.action-btn {
+    color: #1f6fff;
+    text-decoration: none;
+}
+
+/* ===== GENERIC ===== */
+
+.center {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* ===============================
+   STUDENT DASHBOARD
+================================ */
+
+.dashboard-bg {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f2f5f9;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+    background: rgba(255, 255, 255, 0.95);
+    width: 340px;
+    padding: 30px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.dashboard-img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.dashboard-container h2 {
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.dash-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    text-decoration: none;
+    background: #28854c;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.dash-btn:hover {
+    background: #194d2d;
+}
+
+.logout {
+    background: #e74c3c;
+}
+
+.logout:hover {
+    background: #c0392b;
+}
+
+/* ADMIN BACKGROUND */
+
+.admin-bg{
+    margin:0;
+    height:100vh;
+    background:url("/static/images/admin.jpg") no-repeat center center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* STUDENT BACKGROUND */
+
+.student-bg{
+    margin:0;
+    height:100vh;
+    background:url("/static/images/student.jpg") no-repeat center center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CENTER CARD */
+
+.center-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    width: 520px;          /* BIGGER WIDTH */
+    padding: 70px 60px;   /* MORE SPACE INSIDE */
+
+    border-radius: 24px;
+    text-align: center;
+
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+
+.center-card h2{
+    margin-bottom:25px;
+}
+
+/* BUTTONS */
+
+.btn{
+    display:block;
+    text-decoration:none;
+    padding:12px;
+    margin:12px 0;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.primary{
+    background: #346a3e;
+    color:white;
+}
+
+.primary:hover{
+    background: #2a5c33;
+}
+
+.danger{
+    background: #ef4444;
+    color:white;
+}
+
+.danger:hover{
+    background: #dc2626;
+}
+
+/* DASHBOARD ACTION CARDS */
+
+.big{
+    width:650px;        /* wider */
+    min-height:420px;  /* taller */
+    padding:50px;      /* more inner space */
+}
+
+.action-row{
+    display:flex;
+    gap:30px;
+    margin:35px 0;
+}
+
+.card-box{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+}
+
+.card-box img{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.full{
+    width:100%;
+}
+
+/* GLASS EFFECT */
+
+.glass{
+    background:rgba(255,255,255,0.35);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.4);
+}
+
+.apply-btn{
+    background:#facc15;
+    color: #1f2937;
+}
+
+.apply-btn:hover{
+    background: #eab308;
+}
+
+/* Make both cards equal size */
+.card-box{
+    width:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* Make BOTH buttons same size + centered */
+
+.card-box .btn,
+.card-box button{
+    width:100%;
+    text-align:center;
+    margin-top:12px;
+}
+
+/* Apply button alignment fix */
+
+.apply-btn{
+    background:#facc15;
+    color:#1f2937;
+    border:none;
+    border-radius:10px;
+    padding:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.apply-btn:hover{
+    background:#eab308;
+}
+
+/* ===============================
+   BOOKS PAGE
+================================ */
+
+.books-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url("/static/images/student.jpg") no-repeat center center/cover;
+    font-family:Arial, sans-serif;
+}
+
+/* Glass container */
+
+.books-container{
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    padding:30px 40px;
+    border-radius:18px;
+    width:900px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+
+.books-container h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+/* Table styling */
+
+.books-table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:12px;
+}
+
+/* Header */
+
+.books-table th{
+    background:#2563eb;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+/* Cells */
+
+.books-table td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* Zebra rows */
+
+.books-table tr:nth-child(even){
+    background:#f9fafb;
+}
+
+/* Request button */
+
+.request-btn{
+    background: rgb(50, 134, 81);
+    color:white;
+    padding:6px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.request-btn:hover{
+    background: #235126;
+}
+
+/* Back link */
+
+.back-link{
+    display:inline-block;
+    margin-top:18px;
+    text-decoration:none;
+    color: #235126;
+    font-weight:600;
+}
+
+.back-link:hover{
+    text-decoration:underline;
+}
+
+/* ===============================
+   ADMIN CARDS PAGE
+================================ */
+
+.admin-cards-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url("/static/images/admin.jpg") no-repeat center center/cover;
+    font-family:Arial, sans-serif;
+}
+
+/* Glass container */
+
+.admin-cards-container{
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    padding:30px 40px;
+    border-radius:18px;
+    width:900px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+
+.admin-cards-container h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+/* Table */
+
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+/* Header */
+
+.admin-table th{
+    background:#2563eb;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+/* Cells */
+
+.admin-table td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* Zebra */
+
+.admin-table tr:nth-child(even){
+    background:#f9fafb;
+}
+
+/* Approve button */
+
+.approve-btn{
+    background:#16a34a;
+    color:white;
+    padding:6px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.approve-btn:hover{
+    background:#14532d;
+}
+
+/* Status badges */
+
+.status-approved{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.status-pending{
+    color:#d97706;
+    font-weight:bold;
+}
+
+/* Back */
+
+.admin-back{
+    display:inline-block;
+    margin-top:18px;
+    text-decoration:none;
+    color:#14532d;
+    font-weight:600;
+}
+
+.admin-back:hover{
+    text-decoration:underline;
+}
+/* ===============================
+   ADMIN BOOK REQUESTS
+================================ */
+
+.admin-books-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url("/static/images/admin.jpg") no-repeat center center/cover;
+    font-family:Arial, sans-serif;
+}
+
+/* Glass container */
+
+.admin-books-container{
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    padding:30px 40px;
+    border-radius:18px;
+    width:1000px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+
+.admin-books-container h2{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+/* Table */
+
+.admin-books-table{
+    width:100%;
+    border-collapse:collapse;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+/* Header */
+
+.admin-books-table th{
+    background:#2563eb;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+/* Cells */
+
+.admin-books-table td{
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* Zebra */
+
+.admin-books-table tr:nth-child(even){
+    background:#f9fafb;
+}
+
+/* Buttons */
+
+.approve-book{
+    background:#16a34a;
+    color:white;
+    padding:6px 12px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.approve-book:hover{
+    background:#14532d;
+}
+
+.decline-book{
+    background:#ef4444;
+    color:white;
+    padding:6px 12px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.decline-book:hover{
+    background:#b91c1c;
+}
+
+/* Status */
+
+.book-approved{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.book-pending{
+    color:#d97706;
+    font-weight:bold;
+}
+
+/* Back */
+
+.admin-books-back{
+    display:inline-block;
+    margin-top:18px;
+    text-decoration:none;
+    color:#14532d;
+    font-weight:600;
+}
+
+.admin-books-back:hover{
+    text-decoration:underline;
+}
+
+/* ===============================
+   GLOBAL HEADER
+================================ */
+
+.main-header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:70px;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(8px);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:1px;
+    z-index:999;
+}
+
+/* Push content below header */
+
+body{
+    padding-top:70px;
+}

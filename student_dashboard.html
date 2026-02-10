@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <div class="main-header">
+     LIBRARY CARD SYSTEM
+    </div>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="student-bg">
+
+<div class="center-card glass big">
+
+    <h2>Student Dashboard</h2>
+
+    <div class="action-row">
+
+        <!-- APPLY CARD -->
+        <form action="/apply_card" method="POST" class="card-box">
+            <img src="/static/images/library_card.jpg" alt="Library Card">
+            <button type="submit" class="btn apply-btn">Apply Card</button>
+        </form>
+
+        <!-- VIEW BOOKS -->
+        <a href="/books" class="card-box">
+            <img src="/static/images/books.jpg" alt="Books">
+            <div class="btn primary">View Books</div>
+        </a>
+
+    </div>
+
+    <a href="/logout" class="btn danger full">Logout</a>
+
+</div>
+
+{% if request.args.get('applied') %}
+<script>
+    alert("Library Card Applied Successfully!");
+</script>
+{% endif %}
+
+</body>
+</html>
