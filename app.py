@@ -3,7 +3,7 @@ import mysql.connector
 import os
 from urllib.parse import urlparse
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = "secret123"
 
 def connect():
