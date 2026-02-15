@@ -31,21 +31,22 @@
     <td>{{ r.title }}</td>
 
     <td>
-        {% if r.status == 'Approved' %}
-            <span class="book-approved">Approved</span>
-        {% else %}
-            <span class="book-pending">Pending</span>
-        {% endif %}
-    </td>
+    {% if r.status == 'Approved' %}
+        <span class="book-approved">Approved</span>
+    {% elif r.status == 'Declined' %}
+        <span class="book-declined">Declined</span>
+    {% else %}
+        <span class="book-pending">Pending</span>
+    {% endif %}
+</td>
 
     <td>
         {% if r.status == 'Pending' %}
-            <a href="/admin/book_approve/{{ r.id }}" class="approve-book">Approve</a>
-            |
-            <a href="/admin/book_reject/{{ r.id }}" class="decline-book">Decline</a>
-        {% else %}
-            Approved
-        {% endif %}
+    <a href="/admin/book_approve/{{ r.id }}" class="approve-book">Approve</a> |
+    <a href="/admin/book_reject/{{ r.id }}" class="decline-book">Decline</a>
+{% else %}
+    {{ r.status }}
+{% endif %}
     </td>
 </tr>
 {% endfor %}
