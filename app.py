@@ -1,11 +1,29 @@
 from backend.database import connect_db
 from flask import Flask, render_template, request, redirect, session
 import mysql.connector
+import os
+from urllib.parse import urlparse
 
 app = Flask(__name__, template_folder='.')
 app.secret_key = "secret123"
 
-db = mysql.connector.connect(
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    # CLOUD (Render + Railway)
+    url = urlparse(DATABASE_URL)
+
+    db = mysql.connector.connect(
+        host=url.hostname,
+        user=url.username,
+        password=url.password,
+        database=url.path[1:],
+        port=url.port
+    )
+else:
+    # LOCAL (ST project on laptop)
+
+    db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="root75",
@@ -13,7 +31,6 @@ db = mysql.connector.connect(
 )
 
 cursor = db.cursor(dictionary=True)
-
 
 @app.route('/', methods=['GET','POST'])
 def login():
@@ -88,6 +105,30 @@ def admin_cards():
     cards = cursor.fetchall()
 
     return render_template('admin_cards.html', cards=cards)
+
+@app.route('/admin/approve_card/<int:card_id>')
+def approve_card(card_id):
+
+    cursor.execute(
+        "UPDATE library_cards SET status='Approved' WHERE id=%s",
+        (card_id,)
+    )
+
+    db.commit()
+
+    return redirect('/admin/cards')
+
+@app.route('/admin/decline_card/<int:card_id>')
+def decline_card(card_id):
+
+    cursor.execute(
+        "UPDATE library_cards SET status='Declined' WHERE id=%s",
+        (card_id,)
+    )
+
+    db.commit()
+
+    return redirect('/admin/cards')
 
 @app.route('/admin/book_approve/<int:req_id>')
 def approve_book(req_id):
@@ -169,4 +210,4 @@ def logout():
     return redirect('/')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))

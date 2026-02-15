@@ -694,3 +694,21 @@ th {
 body{
     padding-top:70px;
 }
+
+.decline-btn {
+    background: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.decline-btn:hover {
+    background: #b52a37;
+}
+
+.status-declined {
+    color: red;
+    font-weight: bold;
+}

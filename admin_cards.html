@@ -29,20 +29,26 @@
     <td>{{ c.name }}</td>
 
     <td>
-        {% if c.status == 'Approved' %}
-            <span class="status-approved">Approved</span>
-        {% else %}
-            <span class="status-pending">Pending</span>
-        {% endif %}
-    </td>
+    {% if c.status == 'Approved' %}
+        <span class="status-approved">Approved</span>
+    {% elif c.status == 'Declined' %}
+        <span class="status-declined">Declined</span>
+    {% else %}
+        <span class="status-pending">Pending</span>
+    {% endif %}
+</td>
 
     <td>
-        {% if c.status == 'Pending' %}
-            <a href="/admin/approve_card/{{ c.id }}" class="approve-btn">Approve</a>
-        {% else %}
-            —
-        {% endif %}
-    </td>
+    {% if c.status == 'Pending' %}
+        <a href="/admin/approve_card/{{ c.id }}" class="approve-btn">Approve</a>
+        |
+        <a href="/admin/decline_card/{{ c.id }}" class="decline-btn">Decline</a>
+    {% else %}
+        —
+    {% endif %}
+</td>
+
+
 </tr>
 {% endfor %}
 
