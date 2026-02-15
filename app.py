@@ -1,36 +1,40 @@
-from backend.database import connect_db
 from flask import Flask, render_template, request, redirect, session
 import mysql.connector
 import os
 from urllib.parse import urlparse
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__)
 app.secret_key = "secret123"
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+def connect():
+    database_url = os.getenv("MYSQL_PUBLIC_URL")
 
-if DATABASE_URL:
-    # CLOUD (Render + Railway)
-    url = urlparse(DATABASE_URL)
+    if not database_url:
+        raise ValueError("MYSQL_PUBLIC_URL environment variable not set")
 
-    db = mysql.connector.connect(
+    url = urlparse(database_url)
+
+    return mysql.connector.connect(
         host=url.hostname,
         user=url.username,
         password=url.password,
-        database=url.path[1:],
-        port=url.port
+        port=url.port,
+        database=url.path[1:]
     )
-else:
-    # LOCAL (ST project on laptop)
 
-    db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="root75",
-    database="library_db"
-)
+conn = connect()
+cursor = conn.cursor(dictionary=True)
 
-cursor = db.cursor(dictionary=True)
+# else:
+#     # LOCAL (ST project on laptop)
+
+#     db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     password="root75",
+#     database="library_db"
+# )
+
 
 @app.route('/', methods=['GET','POST'])
 def login():
@@ -80,7 +84,7 @@ def apply_card():
         (user_id,)
     )
 
-    db.commit()
+    conn.commit()
 
     return redirect('/student?applied=1')
 
@@ -114,7 +118,7 @@ def approve_card(card_id):
         (card_id,)
     )
 
-    db.commit()
+    conn.commit()
 
     return redirect('/admin/cards')
 
@@ -126,7 +130,7 @@ def decline_card(card_id):
         (card_id,)
     )
 
-    db.commit()
+    conn.commit()
 
     return redirect('/admin/cards')
 
@@ -138,21 +142,21 @@ def approve_book(req_id):
         (req_id,)
     )
 
-    db.commit()
+    conn.commit()
 
     return redirect('/admin/book_requests')
 
 @app.route('/admin/book_reject/<int:req_id>')
 def reject_book(req_id):
 
-    cursor = db.cursor()
+    cursor = conn.cursor()
 
     cursor.execute(
         "UPDATE book_requests SET status='Declined' WHERE id=%s",
         (req_id,)
     )
 
-    db.commit()
+    conn.commit()
 
     return redirect('/admin/book_requests')
 
@@ -170,7 +174,7 @@ def register():
             (name,email,password)
         )
 
-        db.commit()
+        conn.commit()
 
         return redirect('/')
 
@@ -186,7 +190,7 @@ def request_book(book_id):
         (user_id, book_id)
     )
 
-    db.commit()
+    conn.commit()
 
     return redirect('/books?success=1')
 
