@@ -10,7 +10,7 @@ def connect():
     database_url = os.getenv("MYSQL_PUBLIC_URL")
 
     if not database_url:
-        raise ValueError("MYSQL_PUBLIC_URL environment variable not set")
+        raise ValueError("MYSQL_PUBLIC_URL not set")
 
     url = urlparse(database_url)
 
@@ -22,196 +22,103 @@ def connect():
         database=url.path[1:]
     )
 
-conn = connect()
-cursor = conn.cursor(dictionary=True)
-
-# else:
-#     # LOCAL (ST project on laptop)
-
-#     db = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="root75",
-#     database="library_db"
-# )
-
-
-@app.route('/', methods=['GET','POST'])
+@app.route("/", methods=["GET","POST"])
 def login():
-
     error = None
 
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+    if request.method == "POST":
+        conn = connect()
+        cursor = conn.cursor(dictionary=True)
 
-        cursor.execute(
-            "SELECT * FROM users WHERE email=%s AND password=%s",
-            (email, password)
-        )
+        email = request.form["email"]
+        password = request.form["password"]
 
+        cursor.execute("SELECT * FROM users WHERE email=%s AND password=%s",(email,password))
         user = cursor.fetchone()
 
+        cursor.close()
+        conn.close()
+
         if user:
-            session['user_id'] = user['id']
-            session['role'] = user['role']
+            session["user_id"] = user["id"]
+            session["role"] = user["role"]
 
-            if user['role'] == 'admin':
-                return redirect('/admin')
-            else:
-                return redirect('/student')
-        else:
-            error = "Invalid email or password"
+            if user["role"]=="admin":
+                return redirect("/admin")
+            return redirect("/student")
 
-    return render_template('login.html', error=error)
+        error="Invalid login"
 
-@app.route('/student')
+    return render_template("login.html",error=error)
+
+@app.route("/student")
 def student():
-    return render_template('student_dashboard.html')
+    return render_template("student_dashboard.html")
 
-@app.route('/admin')
+@app.route("/admin")
 def admin():
-    return render_template('admin_dashboard.html')
+    return render_template("admin_dashboard.html")
 
-
-@app.route('/apply_card', methods=['POST'])
-def apply_card():
-
-    user_id = session['user_id']
-
-    cursor.execute(
-        "INSERT INTO library_cards (user_id,status) VALUES (%s,'Pending')",
-        (user_id,)
-    )
-
-    conn.commit()
-
-    return redirect('/student?applied=1')
-
-
-@app.route('/books')
+@app.route("/books")
 def books():
-
+    conn=connect()
+    cursor=conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM books")
-    books = cursor.fetchall()
+    books=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("books.html",books=books)
 
-    return render_template('books.html', books=books)
-
-@app.route('/admin/cards')
+@app.route("/admin/cards")
 def admin_cards():
-
+    conn=connect()
+    cursor=conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT library_cards.id, users.name, library_cards.status
-        FROM library_cards
-        JOIN users ON library_cards.user_id = users.id
+    SELECT library_cards.id,users.name,library_cards.status
+    FROM library_cards JOIN users ON library_cards.user_id=users.id
     """)
+    cards=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("admin_cards.html",cards=cards)
 
-    cards = cursor.fetchall()
-
-    return render_template('admin_cards.html', cards=cards)
-
-@app.route('/admin/approve_card/<int:card_id>')
-def approve_card(card_id):
-
-    cursor.execute(
-        "UPDATE library_cards SET status='Approved' WHERE id=%s",
-        (card_id,)
-    )
-
+@app.route("/admin/approve_card/<int:id>")
+def approve_card(id):
+    conn=connect()
+    cursor=conn.cursor()
+    cursor.execute("UPDATE library_cards SET status='Approved' WHERE id=%s",(id,))
     conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect("/admin/cards")
 
-    return redirect('/admin/cards')
-
-@app.route('/admin/decline_card/<int:card_id>')
-def decline_card(card_id):
-
-    cursor.execute(
-        "UPDATE library_cards SET status='Declined' WHERE id=%s",
-        (card_id,)
-    )
-
+@app.route("/admin/decline_card/<int:id>")
+def decline_card(id):
+    conn=connect()
+    cursor=conn.cursor()
+    cursor.execute("UPDATE library_cards SET status='Declined' WHERE id=%s",(id,))
     conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect("/admin/cards")
 
-    return redirect('/admin/cards')
-
-@app.route('/admin/book_approve/<int:req_id>')
-def approve_book(req_id):
-
-    cursor.execute(
-        "UPDATE book_requests SET status='Approved' WHERE id=%s",
-        (req_id,)
-    )
-
-    conn.commit()
-
-    return redirect('/admin/book_requests')
-
-@app.route('/admin/book_reject/<int:req_id>')
-def reject_book(req_id):
-
-    cursor = conn.cursor()
-
-    cursor.execute(
-        "UPDATE book_requests SET status='Declined' WHERE id=%s",
-        (req_id,)
-    )
-
-    conn.commit()
-
-    return redirect('/admin/book_requests')
-
-
-@app.route('/register', methods=['GET','POST'])
+@app.route("/register",methods=["GET","POST"])
 def register():
-
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-
-        cursor.execute(
-            "INSERT INTO users(name,email,password,role) VALUES(%s,%s,%s,'user')",
-            (name,email,password)
-        )
-
+    if request.method=="POST":
+        conn=connect()
+        cursor=conn.cursor()
+        cursor.execute("INSERT INTO users(name,email,password,role) VALUES(%s,%s,%s,'user')",
+        (request.form["name"],request.form["email"],request.form["password"]))
         conn.commit()
+        cursor.close()
+        conn.close()
+        return redirect("/")
+    return render_template("register.html")
 
-        return redirect('/')
-
-    return render_template('register.html')
-
-@app.route('/request/<int:book_id>')
-def request_book(book_id):
-
-    user_id = session.get('user_id')
-
-    cursor.execute(
-        "INSERT INTO book_requests(user_id,book_id,status) VALUES(%s,%s,'Pending')",
-        (user_id, book_id)
-    )
-
-    conn.commit()
-
-    return redirect('/books?success=1')
-
-@app.route('/admin/book_requests')
-def admin_book_requests():
-
-    cursor.execute("""
-        SELECT book_requests.id, users.name, books.title, book_requests.status
-        FROM book_requests
-        JOIN users ON book_requests.user_id = users.id
-        JOIN books ON book_requests.book_id = books.id
-    """)
-
-    requests = cursor.fetchall()
-
-    return render_template('admin_book_requests.html', requests=requests)
-
-@app.route('/logout')
+@app.route("/logout")
 def logout():
     session.clear()
-    return redirect('/')
+    return redirect("/")
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+if __name__=="__main__":
+    app.run(host="0.0.0.0",port=int(os.environ.get("PORT",10000)))
